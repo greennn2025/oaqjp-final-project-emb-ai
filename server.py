@@ -1,3 +1,6 @@
+"""
+Flask app for detecting emotions from input text using IBM Watson NLP API.
+"""
 from flask import Flask, render_template, request
 from EmotionDetection.emotion_detection import emotion_detector
 
@@ -5,6 +8,9 @@ app = Flask('Emotion Detector')
 
 @app.route("/emotionDetector")
 def sent_detector():
+    """
+    Endpoint to analyze the emotion of input text provided via GET parameter.
+    """
      # Retrieve the text to analyze from the request arguments
     text_to_analyze = request.args.get('textToAnalyze')
 
@@ -15,7 +21,7 @@ def sent_detector():
     response_output = (
         f"For the given statement, the system response is "
         f"'anger': {response['anger']}, "
-        f"'disgust': {response['disgust']}, "
+        f"'disgust': {response['disgust']}, "s
         f"'fear': {response['fear']}, "
         f"'joy': {response['joy']} and "
         f"'sadness': {response['sadness']}. "
@@ -24,8 +30,7 @@ def sent_detector():
 
     if response['dominant_emotion'] is None:
         return "Invalid text! Please try again!"
-    else:
-        return response_output
+    return response_output
 
 @app.route("/")
 def render_index_page():
@@ -34,4 +39,3 @@ def render_index_page():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5010)
-
